@@ -1,46 +1,18 @@
-local DarkUI = require(script.Parent.src)
+local ok, scriptCode = pcall(function()
+    return game:HttpGet("https://sole-hub.vercel.app/api/script")
+end)
 
-local window = DarkUI:New({
-    Name = "Sole Hub",
-    Transparency = false,
-})
+if not ok or type(scriptCode) ~= "string" or scriptCode == "" then
+    warn("Sole Hub fetch failed.")
+    return
+end
 
-local main = window:Section("Main")
-local combat = window:Section("Combat")
+local fn, err = loadstring(scriptCode)
+if not fn then
+    warn("Failed to parse Sole Hub script:", err)
+    return
+end
 
-local tabA = main:Tab("General")
-tabA:Button({
-    Name = "Hello",
-    Callback = function()
-        print("Button clicked")
-    end,
-})
+fn()
 
-tabA:Toggle({
-    Name = "Enabled",
-    Default = true,
-    Callback = function(value)
-        print("Toggle:", value)
-    end,
-})
-
-local slider = tabA:Slider({
-    Name = "Speed",
-    Min = 0,
-    Max = 100,
-    Default = 25,
-    Increment = 5,
-    Callback = function(value)
-        print("Slider:", value)
-    end,
-})
-
-local tabB = combat:Tab("Aim")
-tabB:Button({
-    Name = "Fov",
-    Callback = function()
-        print("Fov button")
-    end,
-})
-
-window:Close()
+print("Sole Hub example loaded successfully.")
