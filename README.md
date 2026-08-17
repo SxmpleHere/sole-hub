@@ -1,31 +1,70 @@
 # Sole Hub - Roblox Dark UI Library
 
-This repository contains a Roblox Dark UI library with whitelist protection and script delivery via GitHub Pages.
+Roblox Dark UI library with **server-side protection** using Vercel. Script sadece Roblox'tan çalışır, browser'dan açılınca kod görünmez.
 
-## Quick Start
+## 🚀 Quick Start
 
-### Load Script
-```lua
-loadstring(httpget("https://sxmplehere.github.io/sole-hub/script.lua"))()
+### 1. Deploy to Vercel
+```bash
+# Repoyu fork et veya clone et
+# Vercel'e git https://vercel.com connect et
 ```
 
-### Files
-- `script.lua` - Main Roblox executable script
-- `src/` - DarkUI library source code
-- `.github/workflows/pages.yml` - GitHub Pages deployment
+### 2. Load Script in Roblox
+```lua
+loadstring(httpget("https://YOUR-PROJECT.vercel.app/api/script"))()
+```
 
-## Whitelist
+`YOUR-PROJECT` yerine senin Vercel project adını koy.
 
-Edit `script.lua` and add your User IDs:
+## 🔒 Güvenlik Özellikleri
+
+- ✅ **Browser'dan açılınca kod görünmez** (403 döndürülür)
+- ✅ **Sadece Roblox HttpGet tarafından çalışır**
+- ✅ **User ID whitelist** (`loader.lua`'da düzenle)
+- ✅ **Server-side kontrol** (Vercel API)
+
+## 📁 Dosyalar
+
+- `api/script.js` - Vercel API endpoint (script döndürür)
+- `loader.lua` - Roblox loader script (whitelist ile)
+- `src/` - DarkUI library
+- `vercel.json` - Vercel konfigürasyonu
+
+## ⚙️ Whitelist Kurulumu
+
+`loader.lua`'da User ID'leri ekle:
 
 ```lua
 local whitelist = {
-    123456789, -- Your ID
-    987654321, -- Friend's ID
+    123456789, -- Senin ID'n
+    987654321, -- Arkadaş ID'si
 }
 ```
 
-## Requirements
+## 📋 Vercel Deployment
 
-- Roblox game with HttpGet enabled
-- DarkUI library (optional - falls back to basic mode)
+1. **Vercel'e giriş yap:** https://vercel.com
+2. **"New Project" → GitHub repo seç**
+3. **Deploy et**
+4. **URL'yi kopyala:** `https://YOUR-PROJECT.vercel.app`
+5. **Roblox'ta kullan:**
+   ```lua
+   loadstring(httpget("https://YOUR-PROJECT.vercel.app/api/script"))()
+   ```
+
+## ✨ Test Etme
+
+Terminal'de:
+```bash
+# Local test
+node api/script.js
+
+# Browser'da açarsanız 403 döndürecek
+curl https://YOUR-PROJECT.vercel.app/api/script
+# > Access denied
+
+# Roblox'ta açarsanız script döndürecek
+loadstring(httpget("https://YOUR-PROJECT.vercel.app/api/script"))()
+# > ✅ Script loaded
+```
