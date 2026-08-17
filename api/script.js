@@ -1,6 +1,64 @@
 const scriptContent = `local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
-local UI = require(ReplicatedStorage:WaitForChild("sole-hub"):WaitForChild("src"))
+
+local function ensureFolder(parent, name)
+    local existing = parent:FindFirstChild(name)
+    if existing and existing:IsA("Folder") then
+        return existing
+    end
+    local folder = Instance.new("Folder")
+    folder.Name = name
+    folder.Parent = parent
+    return folder
+end
+
+local function ensureModule(parent, name, source)
+    local existing = parent:FindFirstChild(name)
+    if existing and existing:IsA("ModuleScript") then
+        existing.Source = source
+        return existing
+    end
+    local module = Instance.new("ModuleScript")
+    module.Name = name
+    module.Source = source
+    module.Parent = parent
+    return module
+end
+
+local function fetchRaw(path)
+    return game:HttpGet("https://raw.githubusercontent.com/SxmpleHere/sole-hub/main/" .. path)
+end
+
+local root = ensureFolder(ReplicatedStorage, "sole-hub")
+local srcRoot = ensureFolder(root, "src")
+
+local files = {
+    "src/init.lua",
+    "src/Components/Window.lua",
+    "src/Components/Section.lua",
+    "src/Components/Tab.lua",
+    "src/Components/Controls/Button.lua",
+    "src/Components/Controls/Toggle.lua",
+    "src/Components/Controls/Slider.lua",
+    "src/Utils/Theme.lua",
+    "src/Utils/Animations.lua",
+    "src/Utils/Drag.lua",
+    "src/Utils/Whitelist.lua",
+}
+
+for _, filePath in ipairs(files) do
+    local rel = filePath:match("^src/(.*)$")
+    local parts = rel and rel:split("/") or {}
+    local parent = srcRoot
+    for i = 1, #parts - 1 do
+        parent = ensureFolder(parent, parts[i])
+    end
+    local name = parts[#parts]:match("^(.-)%.lua$")
+    local source = fetchRaw(filePath)
+    ensureModule(parent, name, source)
+end
+
+local UI = require(srcRoot:WaitForChild("init"))
 
 local Window = UI:New({
     Name = "Aimbot",
