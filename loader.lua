@@ -1,34 +1,13 @@
---// Sole Hub - Secure Loadstring Script
---// Bu script sadece Roblox'tan çalışır, browser'dan değil
---// Usage: loadstring(httpget("https://YOUR-PROJECT.vercel.app/api/script"))()
+--// Sole Hub - Public Loadstring Script
+--// Bu script tüm Roblox kullanıcıları tarafından kullanılabilir
+--// Usage: loadstring(httpget("https://sole-hub.vercel.app/api/script"))()
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
---// User ID Whitelist
-local whitelist = {
-    123456789, -- Senin User ID'n
-    987654321, -- Arkadaşın ID'si
-}
-
---// Whitelist kontrol
-local allowed = false
-for _, userId in ipairs(whitelist) do
-    if player.UserId == userId then
-        allowed = true
-        break
-    end
-end
-
-if not allowed then
-    warn("❌ Access Denied: Your User ID is not whitelisted")
-    warn("Your User ID: " .. tostring(player.UserId))
-    return
-end
-
-print("✅ Whitelist check passed")
 print("✅ Sole Hub loaded successfully!")
+print("✅ Player: " .. player.Name)
 
 --// DarkUI Library (opsiyonel)
 local libSuccess, lib = pcall(function()

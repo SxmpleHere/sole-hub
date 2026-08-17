@@ -4,67 +4,40 @@ Roblox Dark UI library with **server-side protection** using Vercel. Script sade
 
 ## 🚀 Quick Start
 
-### 1. Deploy to Vercel
-```bash
-# Repoyu fork et veya clone et
-# Vercel'e git https://vercel.com connect et
-```
-
-### 2. Load Script in Roblox
 ```lua
-loadstring(httpget("https://YOUR-PROJECT.vercel.app/api/script"))()
+loadstring(httpget("https://sole-hub.vercel.app/api/script"))()
 ```
 
-`YOUR-PROJECT` yerine senin Vercel project adını koy.
+**Bütün Roblox kullanıcıları** bu kodu kullanabilir! ✅
 
 ## 🔒 Güvenlik Özellikleri
 
-- ✅ **Browser'dan açılınca kod görünmez** (403 döndürülür)
-- ✅ **Sadece Roblox HttpGet tarafından çalışır**
-- ✅ **User ID whitelist** (`loader.lua`'da düzenle)
-- ✅ **Server-side kontrol** (Vercel API)
+- ✅ **Browser'dan açılınca kod görünmez** (public değil)
+- ✅ **Sadece Roblox HttpGet**'ten çalışır
+- ✅ **Server-side korunması** (Vercel API)
+- ✅ **Public erişim** (tüm kullanıcılara açık)
 
 ## 📁 Dosyalar
 
 - `api/script.js` - Vercel API endpoint (script döndürür)
-- `loader.lua` - Roblox loader script (whitelist ile)
+- `loader.lua` - Roblox loader script
 - `src/` - DarkUI library
 - `vercel.json` - Vercel konfigürasyonu
 
-## ⚙️ Whitelist Kurulumu
-
-`loader.lua`'da User ID'leri ekle:
-
-```lua
-local whitelist = {
-    123456789, -- Senin ID'n
-    987654321, -- Arkadaş ID'si
-}
-```
-
-## 📋 Vercel Deployment
-
-1. **Vercel'e giriş yap:** https://vercel.com
-2. **"New Project" → GitHub repo seç**
-3. **Deploy et**
-4. **URL'yi kopyala:** `https://YOUR-PROJECT.vercel.app`
-5. **Roblox'ta kullan:**
-   ```lua
-   loadstring(httpget("https://YOUR-PROJECT.vercel.app/api/script"))()
-   ```
-
 ## ✨ Test Etme
 
-Terminal'de:
 ```bash
-# Local test
-node api/script.js
+# Browser'da açarsanız kod görmezsiniz
+curl https://sole-hub.vercel.app/api/script
+# > Hiçbir şey döndürmez (sadece Roblox'a açık)
 
-# Browser'da açarsanız 403 döndürecek
-curl https://YOUR-PROJECT.vercel.app/api/script
-# > Access denied
-
-# Roblox'ta açarsanız script döndürecek
-loadstring(httpget("https://YOUR-PROJECT.vercel.app/api/script"))()
+# Roblox'ta açarsanız script çalışır
+loadstring(httpget("https://sole-hub.vercel.app/api/script"))()
 # > ✅ Script loaded
 ```
+
+| | Browser | Roblox |
+|---|---|---|
+| **Erişim** | ❌ Yok | ✅ Var |
+| **Kod görünür mü?** | ❌ Hayır | ✅ Evet |
+| **Çalışır mı?** | ❌ Hayır | ✅ Evet |
