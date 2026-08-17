@@ -1,13 +1,73 @@
-const scriptContent = `--// Sole Hub - Protected Script
---// Usage: loadstring(httpget("https://sole-hub.vercel.app/api/script"))()
+const scriptContent = `local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+local UI = require(ReplicatedStorage:WaitForChild("sole-hub"):WaitForChild("src"))
 
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+local Window = UI:New({
+    Name = "Aimbot",
+    Transparency = false,
+})
 
-print("✅ Sole Hub loaded successfully!")
-print("Player: " .. player.Name)
+local Section = Window:Section("UNIVERSAL")
 
--- Buraya DarkUI ya da diğer kodlarını ekle
+local Tab1 = Section:Tab("Aimbot")
+local Tab2 = Section:Tab("Visuals")
+
+Tab1:Toggle({
+    Name = "Enable Aim Assist",
+    Default = false,
+    Callback = function(state)
+        print("Aim Assist:", state)
+    end,
+})
+
+Tab1:Slider({
+    Name = "Speed",
+    Min = 0,
+    Max = 200,
+    Default = 50,
+    Increment = 5,
+    Callback = function(value)
+        print(value)
+    end,
+})
+
+Tab1:Button({
+    Name = "Reset",
+    Callback = function()
+        print("basıldı")
+    end,
+})
+
+Tab1:Toggle({
+    Name = "Silent Aim",
+    Default = true,
+    Callback = function(state)
+        print("Silent Aim:", state)
+    end,
+})
+
+Tab2:Toggle({
+    Name = "ESP Boxes",
+    Default = false,
+    Callback = function(state)
+        print("ESP Boxes:", state)
+    end,
+})
+
+local windowOpen = true
+
+UserInputService.InputBegan:Connect(function(input, processed)
+    if processed then
+        return
+    end
+
+    if input.KeyCode == Enum.KeyCode.A then
+        if windowOpen then
+            Window:Close()
+            windowOpen = false
+        end
+    end
+end)
 `
 
 export default function handler(req, res) {
